@@ -1,34 +1,53 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>DomoMaker</title>
-  <link rel="shortcut icon" href="/assets/img/bee.png" />
-  <link rel="stylesheet" type="text/css" href="/assets/output.css" />
-  {{!--
-  <script src="https://cdn.tailwindcss.com"></script> --}}
+	<meta charset="utf-8" />
+	<title>DomoMaker</title>
+	<link rel="shortcut icon" href="/assets/img/bee.png" />
+	<link rel="stylesheet" type="text/css" href="/assets/output.css" />
+
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-  <nav><a href="/login"><img id="logo" src="/assets/img/bee.png" alt="face logo" /></a>
-    <div class="navlink"><a href="/logout">Log out</a></div>
-  </nav>
+	<nav class="-mb-px text-sm font-medium text-gray-600 border-b border-gray-200">
+		<a href="/login"><img id="logo" src="/assets/img/bee.png" alt="face logo"
+				class="inline-block py-3 w-8 mx-3 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-400">
+		</a>
+		<div class="inline-block p-4 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-400">
+			<a href="/logout">Log out</a>
+		</div>
+	</nav>
 
-  <section id="makeDomo">
+	<div id="content" class="grid grid-cols-2">
+		<div id="hints" class="">
 
-  </section>
+		</div>
 
-  <section id="domos">
 
-  </section>
+		<div id="words">
 
-  <div id="domoMessage" class='hidden'>
-    <img id="speech" src="/assets/img/speech.png" alt="speech box" />
-    <h3><span id="errorMessage"></span></h3>
-    <img id="domo" src="assets/img/domo.png" alt="domo" />
-  </div>
+		</div>
+	</div>
 
-  <script src="/assets/appBundle.js"></script>
+
+	{{!-- was: id="makeDomo" --}}
+	<section id="makeDomo">
+
+	</section>
+
+	{{!-- was: id="domos" --}}
+	<section id="domos">
+
+	</section>
+
+	<div id="errorDiv" class='hidden'>
+		<img id="speech" src="/assets/img/speech.png" alt="speech box" />
+		<h3><span id="errorMessage"></span></h3>
+		<img id="domo" src="assets/img/domo.png" alt="domo" />
+	</div>
+
+	<script src="/assets/appBundle.js"></script>
 </body>
 
 </html>

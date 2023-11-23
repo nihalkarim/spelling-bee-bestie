@@ -47,8 +47,7 @@ const deleteDomo = async (req, res) => {
   try {
     const deletedDomo = await Domo.findByIdAndDelete(req.body.domoId);
     return res.status(200).json({ message: `Domo ${deletedDomo} is deleted` });
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error deleting domo!' });
   }

@@ -44,44 +44,49 @@ const handleSignup = (e) => {
 
 const LoginWindow = (props) => {
     return (
-        <form id='loginForm'
-            name='loginForm'
-            onSubmit={handleLogin}
-            action='/login'
-            method='POST'
-            className='mainForm'
-        >
-            <label htmlFor="username">Username: </label>
-            <input id='user' type="text" name='username' placeholder='username' />
+        <>
+            <div className='flex flex-row my-4'>
+                <h2 className="font-display text-3xl">Welcome back, bee</h2>
+                <img id="logo" src="/assets/img/bee.png" alt="bee logo" className="w-8 h-fit mx-3" />
+            </div>
+            <form id='loginForm'
+                name='loginForm'
+                onSubmit={handleLogin}
+                action='/login'
+                method='POST'
+                className='flex flex-col'
+            >
+                <input id='user' type="text" name='username' placeholder='Username' className='border-2 rounded-md focus:border-amber-500 hover:border-amber-300 p-3 my-3 w-60' />
 
-            <label htmlFor="pass">Password: </label>
-            <input id='pass' type="password" name='pass' placeholder='password' />
+                <input id='pass' type="password" name='pass' placeholder='Password' className='border-2 rounded-md focus:border-amber-300 hover:border-amber-300 p-3 w-60' />
 
-            <input className='formSubmit' type="submit" value='Sign In' />
-        </form>
+                <input type="submit" value='Sign In' className='rounded-md bg-amber-300 focus:border-amber-200 hover:bg-amber-500 w-20 px-3 py-2 mx-auto my-4 font-display' />
+            </form></>
     );
 };
 
 const SignupWindow = (props) => {
     return (
-        <form id='signupForm'
-            name='signupForm'
-            onSubmit={handleSignup}
-            action='/signup'
-            method='POST'
-            className='mainForm'
-        >
-            <label htmlFor="username">Username: </label>
-            <input id='user' type="text" name='username' placeholder='username' />
+        <>
+            <div className='flex flex-row my-4'>
+                <h2 className="font-display text-3xl">Welcome, new bee</h2>
+                <img id="logo" src="/assets/img/bee.png" alt="bee logo" className="w-8 h-fit mx-3" />
+            </div>
+            <form id='signupForm'
+                name='signupForm'
+                onSubmit={handleSignup}
+                action='/signup'
+                method='POST'
+                className='flex flex-col'
+            >
+                <input id='user' type="text" name='username' placeholder='Username' className='border-2 rounded-md focus:border-amber-500 hover:border-amber-300 p-3 my-3 w-60' />
 
-            <label htmlFor="pass">Password: </label>
-            <input id='pass' type="password" name='pass' placeholder='password' />
+                <input id='pass' type="password" name='pass' placeholder='Password' className='border-2 rounded-md focus:border-amber-500 hover:border-amber-300 p-3 w-60' />
 
-            <label htmlFor="pass2">Password: </label>
-            <input id='pass2' type="password" name='pass2' placeholder='retype password' />
+                <input id='pass2' type="password" name='pass2' placeholder='Retype password' className='border-2 rounded-md focus:border-amber-300 o:border-amber-300 p-3 my-3 w-60' />
 
-            <input className='formSubmit' type="submit" value='Sign In' />
-        </form>
+                <input type="submit" value='Signup' className='rounded-md bg-amber-300 hover:bg-amber-200 w-20 px-3 py-2 mx-auto my-4 font-display' />
+            </form></>
     );
 };
 

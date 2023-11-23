@@ -2,7 +2,7 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const handleDomo = (e) => {
+const handleLetter = (e) => {
     e.preventDefault();
     helper.hideError();
 
@@ -38,7 +38,7 @@ const DomoForm = (props) => {
     return (
         <form id='domoForm'
             name='domoForm'
-            onSubmit={handleDomo}
+            onSubmit={handleLetter}
             action='/maker'
             method='POST'
             className='domoForm'
