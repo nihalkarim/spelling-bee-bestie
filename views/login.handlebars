@@ -1,0 +1,46 @@
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Spelling Bee Bestie</title>
+	<link rel="shortcut icon" href="/assets/img/bee.png" />
+	<link rel="stylesheet" type="text/css" href="/assets/output.css" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
+	{{!--
+	<script src="https://cdn.tailwindcss.com"></script> --}}
+</head>
+
+<body>
+	<div class="grid h-screen place-items-center">
+		<nav
+			class="grid grid-flow-col w-1/4 -mb-px text-sm font-medium text-center text-gray-600 border-b border-gray-200">
+			<div class="navlink">
+				<a id="loginButton" href="/login"
+					class="inline-block p-4 ml-8 border-b-2 border-transparent rounded-t-lg hover:text-gray-800 hover:border-gray-400">
+					Login</a>
+			</div>
+			<div class="navlink">
+				<a id="signupButton" href="/signup"
+					class="inline-block p-4 mr-8 border-b-2 border-transparent rounded-t-lg hover:text-gray-800 hover:border-gray-400">Signup</a>
+			</div>
+		</nav>
+
+		<section id="content" class="flex flex-col h-screen place-items-center">
+
+		</section>
+	</div>
+
+	<div id="errorDiv" class='hidden'>
+		<img id="speech" src="/assets/img/speech.png" alt="speech box" />
+		<h3><span id="errorMessage"></span></h3>
+		<img id="domo" src="assets/img/domo.png" alt="domo" />
+	</div>
+
+	<script src="/assets/loginBundle.js"></script>
+</body>
+
+</html>
