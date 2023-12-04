@@ -18,8 +18,8 @@ const router = (app) => {
   app.get('/letter', mid.requiresLogin, controllers.Letter.letterPage);
   app.post('/letter', mid.requiresLogin, controllers.Letter.makeLetter);
 
-  // app.get('/setup', mid.requiresLogin, controllers.Setup.setupLetterPage);
-  // app.post('/setup', mid.requiresLogin, controllers.Setup.makeLetterSetup);
+  app.get('/setup', mid.requiresLogin, controllers.Setup.setupLetterPage);
+  app.post('/setup', mid.requiresLogin, controllers.Setup.makeLetterSetup);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 

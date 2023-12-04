@@ -32,7 +32,7 @@ const setupTableArray = () => {
                 </td>
                 {Array.from({ length: 12 }, (_, j) => (
                     <td>
-                        <input type="number" id={`l${i}-${j + 4}`} className={`w-8 h-8 bg-stone-100 rounded-sm c${j + 4}`} />
+                        <input type="number" min='0' id={`l${i}-${j + 4}`} className={`w-8 h-8 bg-stone-100 rounded-sm c${j + 4}`} />
                     </td>
                 ))}
             </tr>
@@ -91,20 +91,6 @@ const handleLetter = (e) => {
     // }
 };
 
-const deleteDomo = async (domoId) => {
-    const response = await fetch('/deleteDomo', {
-        method: 'DELETE',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ domoId }),
-    });
-
-    if (response.status === 200) {
-        loadDomosFromServer()
-    }
-}
-
 const DomoForm = (props) => {
     return (
         <form id='domoForm'
@@ -152,35 +138,37 @@ const LetterForm = (props) => {
     );
 };
 
-const DomoList = (props) => {
-    if (props.domos.length === 0) {
-        return (
-            <div className='domoList'>
-                <h3 className="emptyDomo">No Domos Yet!</h3>
-            </div>
-        );
-    }
 
-    const domoNodes = props.domos.map(domo => {
-        return (
-            <div className="domo" key={domo._id}>
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <div>
-                    <h3 className="domoName">Name: {domo.name}</h3>
-                    <h3 className="domoAge">Age: {domo.age}</h3>
-                    <h3 className="domoHobby">Hobby: {domo.hobby}</h3>
-                </div>
-                <button className="deleteDomo" onClick={() => deleteDomo(domo._id)}> Delete Domo </button>
-            </div>
-        );
-    });
 
-    return (
-        <div className="domoList">
-            {domoNodes}
-        </div>
-    );
-};
+// const DomoList = (props) => {
+//     if (props.domos.length === 0) {
+//         return (
+//             <div className='domoList'>
+//                 <h3 className="emptyDomo">No Domos Yet!</h3>
+//             </div>
+//         );
+//     }
+
+//     const domoNodes = props.domos.map(domo => {
+//         return (
+//             <div className="domo" key={domo._id}>
+//                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+//                 <div>
+//                     <h3 className="domoName">Name: {domo.name}</h3>
+//                     <h3 className="domoAge">Age: {domo.age}</h3>
+//                     <h3 className="domoHobby">Hobby: {domo.hobby}</h3>
+//                 </div>
+//                 <button className="deleteDomo" onClick={() => deleteDomo(domo._id)}> Delete Domo </button>
+//             </div>
+//         );
+//     });
+
+//     return (
+//         <div className="domoList">
+//             {domoNodes}
+//         </div>
+//     );
+// };
 
 const loadDomosFromServer = async () => {
     const response = await fetch('/getDomos');
@@ -191,11 +179,9 @@ const loadDomosFromServer = async () => {
 const init = () => {
     ReactDOM.render(<LetterForm />, document.getElementById('letterTable'));
 
-    // ReactDOM.render(<setupTableArray />, document.getElementById('makeDomo'));
+    // ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
 
-    ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
-
-    loadDomosFromServer();
+    // loadDomosFromServer();
 };
 
 window.onload = init;

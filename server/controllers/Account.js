@@ -24,7 +24,7 @@ const login = (req, res) => {
 
     req.session.account = Account.toAPI(account);
 
-    return res.json({ redirect: '/maker' });
+    return res.json({ redirect: '/setup' });
   });
 };
 
@@ -46,7 +46,7 @@ const signup = async (req, res) => {
     const newAcount = new Account({ username, password: hash });
     await newAcount.save();
     req.session.account = Account.toAPI(newAcount);
-    return res.json({ redirect: '/maker' });
+    return res.json({ redirect: '/setup' });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {

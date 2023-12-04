@@ -11,156 +11,44 @@
 
 <body>
     {{!-- navigation --}}
-    <nav clsass="-mb-px text-sm font-medium text-gray-600 border-b border-gray-200">
+    <nav class="-mb-px text-sm font-medium text-gray-600 border-b border-gray-200">
+        {{!-- the bee icon will lead to the login page --}}
         <a href="/login"><img id="logo" src="/assets/img/bee.png" alt="face logo"
                 class="inline-block py-3 w-8 mx-3 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-400">
         </a>
-        <div class="inline-block p-4 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-400">
+        {{!-- the logout button will log you out --}}
+        <div class="inline-block p-4 py-5 border-b-2 border-transparent hover:text-gray-800 hover:border-gray-400">
             <a href="/logout">Log out</a>
         </div>
     </nav>
 
-    <h1>Fill in the table and the two letter word list:</h1>
-    <div id="setupContent">
-        <div id="tableSetup">
-            <div>
-                <h2>Letter Table</h2>
-                <p>Enter each letter and the number of words that start with each letter and are of each length.</p>
-                <p>For example, if there are 3 words that start with "a" and are 4 letters long, enter "3" in the box at
-                    the intersection of "a" and "4".</p>
-            </div>
+    {{!-- setupContent is where the letter table and two letter list will be rendered --}}
+    <div id="setupContent" class="grid md:grid-cols-2 gap-3 sm:grid-cols-1">
+        <h1 class="font-bold font-display text-2xl m-4 md:col-span-2 sm:col-span-1">Fill in the table and the two letter
+            word list:</h1>
+
+        <div id="tableSetup" class="m-4 bg-purple-200">
+            {{!-- the table will go here --}}
         </div>
 
-        <div id="twoLetterListSetup">
-            <div>
-                <h2>Two Letter Word List</h2>
-                <p> Hints for the amount of words that start with the 2 letters.</p>
-            </div>
-            <div class="grid">
-                <div id="letter1">
-                    <h3>Letter 1</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter2">
-                    <h3>Letter 2</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter3">
-                    <h3>Letter 3</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter4">
-                    <h3>Letter 4</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter5">
-                    <h3>Letter 5</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter6">
-                    <h3>Letter 6</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-
-                <div id="letter7">
-                    <h3>Letter 7</h3>
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-
-                    <input type="text" class="w-8 h-8" />-
-                    <input type="number" class="w-8 h-8" />
-                </div>
-            </div>
-
-
+        <div id="twoLetterListSetup" class="m-4 bg-orange-200">
+            {{!-- the two letter list will go here --}}
         </div>
+    </div>
+
+    <div id="submitSetup" class="m-4">
+        {{!-- the submit button will go here. it will post the data to the db and take the user to the main app page
+        --}}
+    </div>
 
 
-        <div id="errorDiv" class='hidden'>
-            <img id="speech" src="/assets/img/speech.png" alt="speech box" />
-            <h3><span id="errorMessage"></span></h3>
-            <img id="domo" src="assets/img/domo.png" alt="domo" />
-        </div>
+    <div id="errorDiv" class='hidden'>
+        <img id="speech" src="/assets/img/speech.png" alt="speech box" />
+        <h3><span id="errorMessage"></span></h3>
+        <img id="domo" src="assets/img/domo.png" alt="domo" />
+    </div>
 
-        <script src="/assets/appBundle.js"></script>
+    <script src="/assets/setupBundle.js"></script>
 </body>
 
 </html>

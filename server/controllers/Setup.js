@@ -2,7 +2,7 @@ const models = require('../models');
 
 const { Setup } = models;
 
-const setupLetterPage = async (req, res) => res.render('app');
+const setupLetterPage = async (req, res) => res.render('setup');
 
 const makeLetterSetup = async (req, res) => {
   const letterData = {
@@ -13,8 +13,11 @@ const makeLetterSetup = async (req, res) => {
   try {
     const newLetter = new Setup(letterData);
     await newLetter.save();
-    return res.status(201).json({ letter: newLetter.letter });
-  } catch (err) {
+    console.log(newLetter);
+    console.log(newLetter.letter)
+    // return res.status(201).json({ letter: newLetter.letter });
+  }
+  catch (err) {
     console.log(err);
     res.status(500).json({ error: 'An error occured making letter!' });
   }

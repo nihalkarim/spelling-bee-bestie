@@ -20,5 +20,5 @@ SetupLetterSchema.statics.toAPI = (doc) => ({
   letter: doc.letter,
 });
 
-const SetupLetterModel = mongoose.model('Letter', SetupLetterSchema);
+const SetupLetterModel = mongoose.model('Setup', SetupLetterSchema);
 module.exports = SetupLetterModel;
