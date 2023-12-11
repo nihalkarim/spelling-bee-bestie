@@ -6,6 +6,9 @@
 	<link rel="shortcut icon" href="/assets/img/bee.png" />
 	<link rel="stylesheet" type="text/css" href="/assets/output.css" />
 
+	<script src="https://kit.fontawesome.com/306d133c2c.js" crossorigin="anonymous"></script>
+
+
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -20,19 +23,38 @@
 	</nav>
 
 	<div id="content" class="grid grid-cols-2 gap-6">
-		<div id="hints" class="grid grid-rows-2 gap-4">
-			<div id="letterTable" class="m-4 bg-red-100">
+		{{!-- <h1 class="font-bold font-display text-2xl m-4 md:col-span-2 sm:col-span-1">F</h1> --}}
+
+		<div id="hints" class="grid grid-rows-2 gap-4 m-4 ">
+			<div id="userInputBox" class="border-b-2 border-gray-300"></div>
+
+			<div id="letterTable" class="">
 			</div>
 
-			<div id="twoLetterList" class="bg-blue-100 h-48">
+			{{!-- <div id="twoLetterList" class="bg-blue-100 h-48">
+			</div> --}}
+		</div>
+
+
+		<div id="wordsDisplay" class="h-screen m-4 ">
+			<div id="wordInputArea" class="mb-3">
+
+			</div>
+
+			<h2 class='font-bold font-display text-xl'>Your Words:</h2>
+			<div id="words" class="bg-gray-50 h-full p-4 rounded-md">
 
 			</div>
 		</div>
 
+	</div>
 
-		<div id="words" class="bg-green-100 h-96">
+	<div id="adSpace" class="fixed bottom-5 inset-x-4 ">
+		<div id='adDiv' className='bg-fixed w-full h-16 border rounded-md '
+			style="background-image: url('./assets/img/produceBg.jpg') ">
 
 		</div>
+
 	</div>
 
 

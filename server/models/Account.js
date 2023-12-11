@@ -6,6 +6,7 @@
 */
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const _ = require('underscore');
 
 /* When generating a password hash, bcrypt (and most other password hash
    functions) use a "salt". The salt is simply extra data that gets hashed
@@ -16,6 +17,8 @@ const mongoose = require('mongoose');
 const saltRounds = 10;
 
 let AccountModel = {};
+
+const setLetter = (letter) => _.escape(letter).trim();
 
 /* Our schema defines the data we will store. A username (string of alphanumeric
    characters), a password (actually the hashed version of the password created
@@ -33,6 +36,12 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  letter: {
+    type: mongoose.Schema.Types.Mixed,
+    required: false,
+    trim: true,
+    set: setLetter,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
@@ -42,6 +51,7 @@ const AccountSchema = new mongoose.Schema({
 // Converts a doc to something we can store in redis later on.
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
+  letter: doc.letter,
   _id: doc._id,
 });
 

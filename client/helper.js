@@ -12,6 +12,11 @@ const handleError = (message) => {
    entries in the response JSON object, and will handle them appropriately.
 */
 const sendPost = async (url, data, handler) => {
+    const jsonString = JSON.stringify(Object.assign({}, data));
+
+    console.log('helper data');
+    console.log(data);
+
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -21,6 +26,11 @@ const sendPost = async (url, data, handler) => {
     });
 
     const result = await response.json();
+    console.log('helper result');
+    console.log(result);
+    console.log('helper result letter');
+    console.log(result.letter);
+
     document.getElementById('errorDiv').classList.add('hidden');
 
     if (result.redirect) {

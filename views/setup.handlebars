@@ -23,17 +23,20 @@
     </nav>
 
     {{!-- setupContent is where the letter table and two letter list will be rendered --}}
-    <div id="setupContent" class="grid md:grid-cols-2 gap-3 sm:grid-cols-1">
+    <div id="setupContent">
+        {{!--^^ class="grid sm:grid-cols-1 md:grid-cols-2 gap-3" --}}
         <h1 class="font-bold font-display text-2xl m-4 md:col-span-2 sm:col-span-1">Fill in the table and the two letter
             word list:</h1>
+
+        <div id="userInputBox"></div>
 
         <div id="tableSetup" class="m-4 bg-purple-200">
             {{!-- the table will go here --}}
         </div>
 
-        <div id="twoLetterListSetup" class="m-4 bg-orange-200">
+        {{!-- <div id="twoLetterListSetup" class="m-4 bg-orange-200">
             {{!-- the two letter list will go here --}}
-        </div>
+        </div> --}}
     </div>
 
     <div id="submitSetup" class="m-4">

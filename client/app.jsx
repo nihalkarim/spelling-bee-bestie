@@ -2,186 +2,215 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-let letters_rows = 7;
-let max_letters = 15;
+let userInputArray = [];
 
-/** Generates the table head numbers 
- *  @returns {Array} Array of table head numbers
-*/
-const tableHead = () => {
-    let tableHeadArray = [];
-    for (let i = 4; i <= max_letters; i++) {
-        tableHeadArray.push(
-            <th className={`c${i}`}>{i}</th>
-        );
-    }
-    return tableHeadArray;
-};
+const parseToArrays = () => {
+    let userInput = document.querySelector('#userInput').value;
+    userInput = userInput.trim();
+    userInputArray = userInput.split('\n');
 
-/** Generates the table
- * 
- * @returns {Array} Array of table rows
- */
-const setupTableArray = () => {
-    let tableArray = [];
-    for (let i = 1; i <= letters_rows; i++) {
-        tableArray.push(
-            <tr id={`row${i}`}>
-                <td>
-                    <input type="text" id={`l${i}`} className={`w-8 h-8 bg-stone-100 rounded-sm`} />
-                </td>
-                {Array.from({ length: 12 }, (_, j) => (
-                    <td>
-                        <input type="number" min='0' id={`l${i}-${j + 4}`} className={`w-8 h-8 bg-stone-100 rounded-sm c${j + 4}`} />
-                    </td>
-                ))}
-            </tr>
-        );
+    //if they copy all the clues, remove the two letter list lines from the array
+    if (userInputArray.includes('Two letter list:')) {
+        userInputArray = userInputArray.splice(0, userInputArray.indexOf('Two letter list:'));
     }
-    return tableArray;
-};
 
-/** Generates the table footer
- * 
- * @returns {Array} Array of table footers
- */
-const tableFooter = () => {
-    let tableFooterArray = [];
-    for (let i = 4; i <= max_letters; i++) {
-        tableFooterArray.push(
-            <th className={`c${i} w-8 h-8`}></th>
-        );
+    for (let i = 0; i < userInputArray.length; i++) {
+        userInputArray[i] = userInputArray[i].split('\t');
+        userInputArray[i].push('\n');
     }
-    return tableFooterArray;
-};
+
+    userInputArray[0].unshift('');
+
+    console.log('userInputArray:');
+    console.log(userInputArray);
+
+    return userInputArray;
+}
 
 const handleLetter = (e) => {
     e.preventDefault();
     helper.hideError();
 
-    const letter = e.target.querySelector('#letter').value;
-    const len4 = e.target.querySelector('#len4').value;
-    const len5 = e.target.querySelector('#len5').value;
-    const len6 = e.target.querySelector('#len6').value;
-    const len7 = e.target.querySelector('#len7').value;
-    const len8 = e.target.querySelector('#len8').value;
-    const len9 = e.target.querySelector('#len9').value;
-    const len10 = e.target.querySelector('#len10').value;
-    const len11 = e.target.querySelector('#len11').value;
-    const len12 = e.target.querySelector('#len12').value;
-    const len13 = e.target.querySelector('#len13').value;
-    const len14 = e.target.querySelector('#len14').value;
+    let parsedArray = parseToArrays();
 
-    if (!letter) {
-        helper.handleError('Letter is empty!');
+    console.log('parsedArray');
+    console.log(parsedArray);
+
+    if (parsedArray.length <= 1) {
+        helper.handleError('Please paste in the table correctly!');
         return false;
     }
 
-    helper.sendPost(e.target.action, { letter, len4, len5, len6, len7, len8, len9, len10, len11, len12, len13, len14 }, loadDomosFromServer);
+    helper.sendPost(e.target.action, parsedArray, renderTableFromServer);
+};
 
-    return false;
+const UserInput = (props) => {
+    return (
+        <>
+            <form id='inputForm'
+                action='/letter'
+                method='POST'
+                onSubmit={handleLetter}
+            >
+                <div>
+                    <h2 className='font-bold font-display text-xl'>Set Up The Letter Table:</h2>
+                    <p className='w-fit py-2'>Go to the <a href='https://www.nytimes.com/puzzles/spelling-bee' target='blank' className='underline'>NYT Spelling Bee</a> and click 'Hints'. Copy the clue table and paste it into the box.</p>
+                </div>
 
-    // const name = e.target.querySelector('#domoName').value;
-    // const age = e.target.querySelector('#domoAge').value;
-    // const hobby = e.target.querySelector('#domoHobby').value;
+                <textarea id='userInput' className='w-full h-60 border-2 border-yellow-500 rounded-md p-3' />
 
-    // if (!name || !age || !hobby) {
-    //     helper.handleError('All fields are required!');
-    //     return false;
+                <input id="submitSetupButton" className='rounded-md bg-amber-300 focus:border-amber-200 hover:bg-amber-500 min-w-fit w-28 px-2 py-1 mx-auto my-4 font-display font-semibold' type="submit" form="inputForm" value='Setup Clues'
+                />
+            </form>
+
+        </>
+    );
+};
+
+const LetterRow = (props) => {
+    const [letter, setLetter] = React.useState(props.letter);
+
+    const [arr, setArr] = React.useState(props.arr);
+
+    return (
+        <tr>
+            <td className='border rounded-md bg-stone-200 p-1 mx-2 w-8 h-6 font-display font-semibold'> {letter} </td>
+            {arr.map((num) => { return <td className='border rounded-md bg-stone-200 p-1 mx-2 w-8 h-6 font-display'>{num}</td> })}
+        </tr>
+    );
+};
+
+const ClueTable = (props) => {
+    console.log('props');
+    console.log(props);
+
+    console.log('props.letters');
+    console.log(props.letters);
+
+    console.log('props.letters length');
+    console.log(props.letters.length);
+
+    let letterStr;
+    let letterStrArr;
+    let firstRow;
+    let tableRows;
+
+    // if (props.letters.length == 0) {
+    //     return (
+    //         <>
+    //             <h2 className='font-bold font-display text-xl mb-4'>Clue Table:</h2>
+    //             <div>Table is empty! </div>
+    //         </>
+    //     );
     // }
-};
 
-const DomoForm = (props) => {
+    letterStr = props.letters[0].letter;
+
+    letterStrArr = letterStr.split('\n');
+
+    for (let i = 0; i < letterStrArr.length; i++) {
+        letterStrArr[i] = letterStrArr[i].split(',');
+        letterStrArr[i].pop();
+    }
+
+    for (let i = 1; i < letterStrArr.length; i++) {
+        letterStrArr[i].shift();
+    }
+
+    firstRow = letterStrArr[0];
+    tableRows = letterStrArr.splice(1)
+
+    const tableDisplayRows = tableRows.map(arr => {
+        return (
+            <LetterRow letter={arr[0]} arr={arr.splice(1)} />
+        );
+    });
+
     return (
-        <form id='domoForm'
-            name='domoForm'
-            onSubmit={handleLetter}
-            action='/maker'
-            method='POST'
-            className='domoForm'
-        >
-            <label htmlFor="name">Name: </label>
-            <input id='domoName' type="text" name='name' placeholder='Domo Name' />
-
-            <label htmlFor="age">Age: </label>
-            <input id='domoAge' type="number" name='age' min='0' />
-
-            <label htmlFor="hobby">Hobby: </label>
-            <input id='domoHobby' type="text" name='hobby' placeholder='Favourite hobby' />
-
-            <input className='makeDomoSubmit' type="submit" value='Make Domo' />
-        </form>
+        <div className="clueTable">
+            <h2 className='font-bold font-display text-xl mb-4'>Clue Table:</h2>
+            <tr>
+                {firstRow.map((num) => { return <td className='border rounded-md bg-stone-200 p-1 m-2 w-8 h-6 font-display font-semibold'>{num}</td> })}
+            </tr>
+            {/* <LetterRow letter={firstRow[0]} arr={firstRow.splice(1)} /> */}
+            {tableDisplayRows}
+        </div>
     );
+
+
 };
 
-const LetterForm = (props) => {
+
+const WordInput = () => {
     return (
+        <>
+            <label className='font-bold font-display text-xl' htmlFor="wordInput">Enter Word:</label>
+            <input id="wordInput" type="text" name="wordInput" placeholder="Enter your word here"
+                className='appearance-none p-2 border border-gray-200 rounded-lg w-full my-1' />
+            {/* <i class="fa-solid fa-arrow-right"></i> */}
+        </>
+    )
+}
 
-        <table className="table-auto">
-            <thead>
-                <tr>
-                    <th className="text-xs text-left">1st Letter</th>
-                    {tableHead()}
-                    <th className="font-bold">∑</th>
-                </tr>
-            </thead>
-            <tbody>
-                {setupTableArray()}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td className="w-8 h-8">∑</td>
-                    {tableFooter()}
-                </tr>
-            </tfoot>
-        </table>
+const WordsList = (props) => {
+    if (props.words.length === 0) {
+        return (
+            <div className=''>
+                <h3 className=''>No Words Entered Yet!</h3>
+            </div>
+        );
+    }
+
+    const wordNodes = props.words.map(word => {
+        return (
+            <li className="" key={word._id}>
+                {word}
+            </li>
+        );
+    });
+
+    return (
+        <div className="">
+            <ol>
+                {wordNodes}
+            </ol>
+        </div>
     );
-};
+}
 
+const AdSpace = () => {
+    return (
+        <h3 className='font-semibold text-lg p-4'>Check out Recipe Keeper</h3>
+    );
+}
 
-
-// const DomoList = (props) => {
-//     if (props.domos.length === 0) {
-//         return (
-//             <div className='domoList'>
-//                 <h3 className="emptyDomo">No Domos Yet!</h3>
-//             </div>
-//         );
-//     }
-
-//     const domoNodes = props.domos.map(domo => {
-//         return (
-//             <div className="domo" key={domo._id}>
-//                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-//                 <div>
-//                     <h3 className="domoName">Name: {domo.name}</h3>
-//                     <h3 className="domoAge">Age: {domo.age}</h3>
-//                     <h3 className="domoHobby">Hobby: {domo.hobby}</h3>
-//                 </div>
-//                 <button className="deleteDomo" onClick={() => deleteDomo(domo._id)}> Delete Domo </button>
-//             </div>
-//         );
-//     });
-
-//     return (
-//         <div className="domoList">
-//             {domoNodes}
-//         </div>
-//     );
-// };
-
-const loadDomosFromServer = async () => {
-    const response = await fetch('/getDomos');
+const renderTableFromServer = async () => {
+    console.log('renderTableFromServer going!')
+    const response = await fetch('/getLetters');
     const data = await response.json();
-    ReactDOM.render(<DomoList domos={data.domos} />, document.getElementById('domos'));
+    console.log('data returned to renderTableFromServer:');
+    console.log(data);
+    ReactDOM.render(<ClueTable letters={data} />, document.getElementById('letterTable'));
 };
 
 const init = () => {
-    ReactDOM.render(<LetterForm />, document.getElementById('letterTable'));
+    ReactDOM.render(<UserInput />, document.getElementById('userInputBox'));
 
-    // ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
+    ReactDOM.render(<WordInput />, document.getElementById('wordInputArea'));
 
-    // loadDomosFromServer();
+    ReactDOM.render(<WordsList words={[]} />, document.getElementById('words'));
+
+    ReactDOM.render(<AdSpace />, document.getElementById('adDiv'));
+
+    ReactDOM.render(<ClueTable letters={[]} />, document.getElementById('letterTable'));
+
+    ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
+
+
+
+    renderTableFromServer();
+
+    loadDomosFromServer();
 };
 
 window.onload = init;

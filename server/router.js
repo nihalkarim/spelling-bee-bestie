@@ -3,7 +3,8 @@ const mid = require('./middleware');
 
 const router = (app) => {
   app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos); // TODO
-  app.get('/getLetters;', mid.requiresLogin, controllers.Letter.getLetters);
+  app.get('/getLetters', mid.requiresLogin, controllers.Letter.getLetters);
+  app.get('/getWords', mid.requiresLogin, controllers.Words.getWords);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -18,8 +19,11 @@ const router = (app) => {
   app.get('/letter', mid.requiresLogin, controllers.Letter.letterPage);
   app.post('/letter', mid.requiresLogin, controllers.Letter.makeLetter);
 
-  app.get('/setup', mid.requiresLogin, controllers.Setup.setupLetterPage);
-  app.post('/setup', mid.requiresLogin, controllers.Setup.makeLetterSetup);
+  app.get('/words', mid.requiresLogin, controllers.Words.wordsPage);
+  app.post('/words', mid.requiresLogin, controllers.Words.makeWord);
+
+  // app.get('/setup', mid.requiresLogin, controllers.Setup.setupLetterPage);
+  // app.post('/setup', mid.requiresLogin, controllers.Setup.makeLetterSetup);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 

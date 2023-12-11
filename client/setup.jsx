@@ -2,127 +2,96 @@ const helper = require('./helper.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-let maxLetters = 7;
-let max_letters = 15;
+let userInputArray = [];
+let rowsArray = [];
 let tableArray = [];
 
-const tableHead = () => {
-    let tableHeadArray = [];
-    for (let i = 4; i <= max_letters; i++) {
-        tableHeadArray.push(
-            <th className={`c${i}`}>{i}</th>
-        );
+let numArray = [];
+
+const parseToArrays = () => {
+    let userInput = document.querySelector('#userInput').value;
+    userInput = userInput.trim();
+    userInputArray = userInput.split('\n');
+
+    //if they copy all the clues, remove the two letter list lines from the array
+    if (userInputArray.includes('Two letter list:')) {
+        userInputArray = userInputArray.splice(0, userInputArray.indexOf('Two letter list:'));
     }
-    console.log('tableHeadArray');
-    console.log(tableHeadArray);
-    return tableHeadArray;
-};
 
-const setupTableArray = () => {
-    for (let i = 1; i <= maxLetters; i++) {
-        tableArray.push(
-            <tr id={`row${i}`}>
-                <td>
-                    <input type="text" id={`l${i}`} className={`w-8 h-8 bg-stone-100 rounded-sm`} />
-                </td>
-
-                {Array.from({ length: 12 }, (_, j) => (
-                    <td>
-                        <input type="number" min='0' id={`l${i}-${j + 4}`} className={`w-8 h-8 bg-stone-100 rounded-sm c${j + 4}`} />
-                    </td>
-                ))}
-            </tr>
-        );
+    for (let i = 0; i < userInputArray.length; i++) {
+        userInputArray[i] = userInputArray[i].split('\t');
+        console.log(userInputArray[i]);
     }
-    console.log('tableArray');
-    console.log(tableArray);
-    return tableArray;
-};
 
-const twoLetterRender = () => {
-    let twoLetterArray = [];
-    for (let i = 1; i <= maxLetters; i++) {
-        twoLetterArray.push(
-            <div id={`letter${i}`} >
-                <h3 className='font-semibold'>Letter {i}</h3>
+    console.log('userInputArray:');
+    console.log(userInputArray);
 
-                <div className='flex flex-row gap-2'>
-                    {Array.from({ length: 4 }, (_, j) => (
-                        <span id={`letter${i}-gr${j + 1}`} >
-                            <input type="text" className="w-8 h-8 bg-stone-100 rounded-sm" />
-                            -
-                            <input type="number" className="w-8 h-8 bg-stone-100 rounded-sm pl-2" placeholder='#' min='0' />
-                        </span>
-
-                    ))}
-                </div>
-            </div>
-        );
-    }
-    console.log('twoLetterArray');
-    console.log(twoLetterArray);
-    return twoLetterArray;
+    return userInputArray;
 }
 
-const populateTableToDb = (e) => {
-    e.preventDefault();
-    helper.hideError();
+const renderTable = (props) => {
+    console.log('renderTable clicked!');
 
-    console.log('populateTableToDb func');
-
+    for (let i = 0; i < userInputArray.length; i++) {
+        numArray = userInputArray[i].splice(1);
+        rowsArray.push(
+            <LetterRow letter={userInputArray[i][0]} arr={numArray} />
+        );
+    }
+    console.log('rowsArray');
+    console.log(rowsArray);
+    return rowsArray;
 };
+
 
 const handleLetter = (e) => {
     e.preventDefault();
     helper.hideError();
 
-    // if (!letter) {
-    //     helper.handleError('Letter is empty!');
-    //     return false;
-    // }
+    let parsedArray = parseToArrays();
 
-    // helper.sendPost(e.target.action, { tableArray }, loadDomosFromServer);
-    helper.sendPost(e.target.action, tableArray);
+    console.log('parsedArray');
+    console.log(typeof parsedArray)
+    console.log(parsedArray);
+    console.log(parsedArray.length);
 
-    return false;
+    if (parsedArray.length <= 1) {
+        helper.handleError('Please paste in the table correctly!');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, parsedArray, renderTableFromServer);
+
+    //return false;
 };
 
-const ClueTable = () => {
+const UserInput = (props) => {
     return (
         <>
-            <div>
-                <h2 className='font-bold font-display text-xl'>Letter Table</h2>
-                <p className='w-fit py-2'>Enter each letter and the number of words that start with each letter and are of each length.</p>
+            <form id='inputForm'
+                action='/letter'
+                method='POST'
+                onSubmit={handleLetter}
+            >
+                <div>
+                    <h2 className='font-bold font-display text-xl'>Letter Table</h2>
+                    <p className='w-fit py-2'>Go to the <a href='https://www.nytimes.com/puzzles/spelling-bee' target='blank' className='underline'>NYT Spelling Bee</a> and click 'Hints'. Copy the clue table and paste it into the box.</p>
+                </div>
 
-                <p className='w-fit py-2'>For example, if there are 3 words that start with "a" and are 4 letters long, enter "3" in the box at
-                    the intersection of "a" and "4".</p>
-            </div>
-            <table className="table-auto my-2">
-                <thead>
-                    <tr>
-                        <th className="text-xs text-left pr-2">Letter</th>
-                        {tableHead()}
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* {setupTableArray()} */}
-                    <LetterRow letter='a' arr={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-                    <LetterRow letter='a' arr={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-                    <LetterRow letter='a' arr={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-                </tbody>
-            </table>
+                <textarea id='userInput' className='w-96 h-96 bg-pink-300' />
 
-
-            <textarea className='w-96 h-96 bg-pink-300' />
+                <input id="submitSetupButton" className='rounded-md bg-amber-300 focus:border-amber-200 hover:bg-amber-500 min-w-fit w-32 px-3 py-2 mx-auto my-4 font-display font-bold' type="submit" form="inputForm" value='Setup Clues'
+                />
+            </form>
 
         </>
     );
 };
 
 const LetterRow = (props) => {
-    const [letter, setLetter] = useState(props.letter);
+    const [letter, setLetter] = React.useState(props.letter);
 
-    const [arr, setArr] = useState(props.arr);
+    const [arr, setArr] = React.useState(props.arr);
 
     return (
         <tr>
@@ -132,32 +101,41 @@ const LetterRow = (props) => {
     );
 };
 
-const LetterList = (props) => {
-    return (
-        <>
-            <div>
-                <h2 className='font-bold font-display text-xl'>Two Letter Word List</h2>
-                <p className='w-fit py-2'> Hints for the amount of words that start with the 2 letters.</p>
+const ClueTable = (props) => {
+    if (props.letters.length === 0) {
+        return (
+            <>
+                <div>Table is empty! </div>
+            </>
+        );
+    }
 
-                <p className='w-fit py-2'>For example, if 4 words start with the letters Th, you'd put TH-4.</p>
-            </div>
-            <div className='grid grid-cols-2 grid-rows-4 gap-y-3 grid-flow-col'>
-                {twoLetterRender()}
-            </div>
-        </>
-    );
-};
+    const tableRows = props.rows.map(row => {
+        return (
+            <LetterRow letter={row[0]} arr={row.splice(1)} />
+        );
+    });
 
-const SubmitButton = (props) => {
     return (
-        <button id="submitSetupButton" className='rounded-md bg-amber-300 focus:border-amber-200 hover:bg-amber-500 min-w-fit w-32 px-3 py-2 mx-auto my-4 font-display font-bold'
-            onClick={handleLetter}
-            action='/letter'
-            method='POST'>
-            Submit Clues
-        </button>
+        <div className="clueTable">
+            {tableRows}
+        </div>
     );
 
+    // return (
+    //     <>
+    //         <table className="table-auto my-2" >
+    //             <thead>
+    //                 <tr>
+
+    //                 </tr>
+    //             </thead>
+    //             <tbody>
+
+    //             </tbody>
+    //         </table>
+    //     </>
+    // );
 };
 
 const DomoList = (props) => {
@@ -190,20 +168,30 @@ const DomoList = (props) => {
     );
 };
 
+const renderTableFromServer = async () => {
+    const response = await fetch('/getLetters');
+    const data = await response.json();
+    console.log('data');
+    console.log(data);
+    ReactDOM.render(<ClueTable letters={data.letters} />, document.getElementById('tableSetup'));
+};
+
 const loadDomosFromServer = async () => {
     const response = await fetch('/getDomos');
     const data = await response.json();
     ReactDOM.render(<DomoList domos={data.domos} />, document.getElementById('domos'));
 };
 
+
+
 const init = () => {
-    ReactDOM.render(<ClueTable />, document.getElementById('tableSetup'));
+    ReactDOM.render(<UserInput />, document.getElementById('userInputBox'));
 
-    ReactDOM.render(<LetterList />, document.getElementById('twoLetterListSetup'));
-
-    ReactDOM.render(<SubmitButton />, document.getElementById('submitSetup'));
+    ReactDOM.render(<ClueTable rowsArray={[]} />, document.getElementById('tableSetup'));
 
     ReactDOM.render(<DomoList domos={[]} />, document.getElementById('domos'));
+
+    renderTableFromServer();
 
     loadDomosFromServer();
 };

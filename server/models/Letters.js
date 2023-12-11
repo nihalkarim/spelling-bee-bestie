@@ -5,10 +5,15 @@ const setLetter = (letter) => _.escape(letter).trim();
 
 const LetterSchema = new mongoose.Schema({
   letter: {
-    type: Array,
+    type: mongoose.Schema.Types.Mixed,
     required: true,
     trim: true,
     set: setLetter,
+  },
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: 'Letters',
   },
   createdDate: {
     type: Date,
