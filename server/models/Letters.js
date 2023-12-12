@@ -1,3 +1,9 @@
+/**
+ *
+ * NOT USED!! MERGED WITH ACCOUNT MODEL INSTEAD
+ *
+ *
+ */
 const mongoose = require('mongoose');
 const _ = require('underscore');
 

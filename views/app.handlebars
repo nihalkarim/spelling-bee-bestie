@@ -23,7 +23,6 @@
 	</nav>
 
 	<div id="content" class="grid grid-cols-2 gap-6">
-		{{!-- <h1 class="font-bold font-display text-2xl m-4 md:col-span-2 sm:col-span-1">F</h1> --}}
 
 		<div id="hints" class="grid grid-rows-2 gap-4 m-4 ">
 			<div id="userInputBox" class="border-b-2 border-gray-300"></div>
@@ -36,7 +35,7 @@
 		</div>
 
 
-		<div id="wordsDisplay" class="h-screen m-4 ">
+		<div id="wordsDisplay" class="h-screen m-4 mb-10">
 			<div id="wordInputArea" class="mb-3">
 
 			</div>
@@ -50,28 +49,17 @@
 	</div>
 
 	<div id="adSpace" class="fixed bottom-5 inset-x-4 ">
-		<div id='adDiv' className='bg-fixed w-full h-16 border rounded-md '
-			style="background-image: url('./assets/img/produceBg.jpg') ">
+		<a href="https://nk1327-project1-d895b0459c56.herokuapp.com" target="_blank">
+			<div id='adDiv' className='bg-fixed w-full h-16 border rounded-md '
+				style="background-image: url('./assets/img/citrusBg.jpg') ">
 
-		</div>
-
+			</div>
+		</a>
 	</div>
 
-
-	{{!-- was: id="makeDomo" --}}
-	<section id="makeDomo">
-
-	</section>
-
-	{{!-- was: id="domos" --}}
-	<section id="domos">
-
-	</section>
-
 	<div id="errorDiv" class='hidden'>
-		<img id="speech" src="/assets/img/speech.png" alt="speech box" />
 		<h3><span id="errorMessage"></span></h3>
-		<img id="domo" src="assets/img/domo.png" alt="domo" />
+		<img id="bee" src="assets/img/bee.png" alt="bee" />
 	</div>
 
 	<script src="/assets/appBundle.js"></script>
